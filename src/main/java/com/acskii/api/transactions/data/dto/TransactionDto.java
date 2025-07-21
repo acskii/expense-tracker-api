@@ -1,5 +1,6 @@
 package com.acskii.api.transactions.data.dto;
 
+import com.acskii.api.transactions.data.validation.ValidPaymentMethod;
 import com.acskii.api.transactions.data.validation.ValidTransactionType;
 import jakarta.validation.constraints.*;
 
@@ -20,6 +21,13 @@ public record TransactionDto(
 
         @NotNull(message = "'type' parameter must not be NULL")
         @ValidTransactionType
-        String type
+        String type,
+
+        @NotNull(message = "'location' parameter must not be NULL")
+        String location,
+
+        @NotNull(message = "'method' parameter must not be NULL")
+        @ValidPaymentMethod
+        String method
 ) {
 }

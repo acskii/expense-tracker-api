@@ -1,5 +1,6 @@
 package com.acskii.api.transactions.data;
 
+import com.acskii.api.transactions.data.enums.PaymentMethod;
 import com.acskii.api.transactions.data.enums.TransactionType;
 import com.acskii.api.users.data.User;
 import jakarta.persistence.*;
@@ -32,6 +33,11 @@ public class Transaction {
     private String description;
 
     @Column(
+            nullable = false
+    )
+    private String location;
+
+    @Column(
             name = "created_on",
             nullable = false,
             updatable = false
@@ -61,12 +67,12 @@ public class Transaction {
 //    @Column(nullable = false)
 //    private TransactionCurrency currency;
 
-    // PaymentMethod
-    // Location
-
     /* Handled by @Converter */
     @Column(nullable = false)
     private TransactionType type;
+
+    @Column(nullable = false)
+    private PaymentMethod method;
 
     /* Determined at Runtime */
     @PrePersist
@@ -97,8 +103,10 @@ public class Transaction {
     public void setType(TransactionType type) {this.type = type;}
     public boolean isProfit() {return profit;}
     public void setProfit(boolean profit) {this.profit = profit;}
+    public String getLocation() {return location;}
+    public void setLocation(String location) {this.location = location;}
+    public PaymentMethod getMethod() {return method;}
+    public void setMethod(PaymentMethod method) {this.method = method;}
 //    public TransactionCurrency getCurrency() {return currency;}
 //    public void setCurrency(TransactionCurrency currency) {this.currency = currency;}
-//    public TransactionType getType() {return type;}
-//    public void setType(TransactionType type) {this.type = type;}
 }

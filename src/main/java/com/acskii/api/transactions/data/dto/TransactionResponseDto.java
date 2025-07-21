@@ -9,6 +9,8 @@ public record TransactionResponseDto(
         String description,
         BigDecimal amount,
         String type,
-        boolean profit
+        boolean profit,
+        String location,
+        String method
 ) {
 }

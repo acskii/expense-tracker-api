@@ -4,6 +4,7 @@ import com.acskii.api.transactions.data.Transaction;
 import com.acskii.api.transactions.data.dto.TransactionEditDto;
 import com.acskii.api.transactions.data.dto.TransactionResponseDto;
 import com.acskii.api.transactions.data.dto.TransactionDto;
+import com.acskii.api.transactions.data.enums.PaymentMethod;
 import com.acskii.api.transactions.data.enums.TransactionType;
 import com.acskii.api.transactions.exception.TransactionNotFoundException;
 import com.acskii.api.transactions.mapper.TransactionMapper;
@@ -76,8 +77,10 @@ public class TransactionService {
 
         if (dto.name() != null && !dto.name().isBlank()) {t.setName(dto.name());}
         if (dto.description() != null) {t.setDescription(dto.description());}
+        if (dto.location() != null) {t.setLocation(dto.location());}
         if (dto.amount() != null) {t.setAmount(dto.amount());}
         if (dto.type() != null) {t.setType(TransactionType.toEnum(dto.type()));}    // Validated from DTO
+        if (dto.method() != null) {t.setMethod(PaymentMethod.toEnum(dto.method()));}    // Validated from DTO
 
         save(t);
     }
