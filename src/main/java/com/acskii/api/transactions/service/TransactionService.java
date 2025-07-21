@@ -4,6 +4,7 @@ import com.acskii.api.transactions.data.Transaction;
 import com.acskii.api.transactions.data.dto.TransactionEditDto;
 import com.acskii.api.transactions.data.dto.TransactionResponseDto;
 import com.acskii.api.transactions.data.dto.TransactionDto;
+import com.acskii.api.transactions.data.enums.TransactionType;
 import com.acskii.api.transactions.exception.TransactionNotFoundException;
 import com.acskii.api.transactions.mapper.TransactionMapper;
 import com.acskii.api.transactions.repo.TransactionRepository;
@@ -76,6 +77,7 @@ public class TransactionService {
         if (dto.name() != null && !dto.name().isBlank()) {t.setName(dto.name());}
         if (dto.description() != null) {t.setDescription(dto.description());}
         if (dto.amount() != null) {t.setAmount(dto.amount());}
+        if (dto.type() != null) {t.setType(TransactionType.toEnum(dto.type()));}    // Validated from DTO
 
         save(t);
     }

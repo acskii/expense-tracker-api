@@ -1,5 +1,7 @@
 package com.acskii.api.transactions.data.enums;
 
+import java.util.stream.Stream;
+
 public enum TransactionType {
     /* Income */
     SALARY("Salary", true),
@@ -25,6 +27,13 @@ public enum TransactionType {
     TransactionType(String value, boolean income) {
         this.income = income;
         this.value = value;
+    }
+
+    public static TransactionType toEnum(String value) {
+        return Stream.of(TransactionType.values())
+                .filter(c -> c.getValue().equalsIgnoreCase(value))
+                .findFirst()
+                .orElse(null);
     }
 
     public String getValue() {return value;}

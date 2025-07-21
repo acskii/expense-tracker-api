@@ -7,6 +7,8 @@ public record TransactionResponseDto(
         UUID id,
         String name,
         String description,
-        BigDecimal amount
+        BigDecimal amount,
+        String type,
+        boolean profit
 ) {
 }

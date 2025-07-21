@@ -3,6 +3,7 @@ package com.acskii.api.transactions.mapper;
 import com.acskii.api.transactions.data.Transaction;
 import com.acskii.api.transactions.data.dto.TransactionDto;
 import com.acskii.api.transactions.data.dto.TransactionResponseDto;
+import com.acskii.api.transactions.data.enums.TransactionType;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,8 +13,9 @@ public class TransactionMapper {
                 t.getId(),
                 t.getName(),
                 t.getDescription(),
-                t.getAmount()//,
-                //t.getCurrency()
+                t.getAmount(),
+                t.getType().getValue(),
+                t.isProfit()
         );
     }
 
@@ -23,7 +25,7 @@ public class TransactionMapper {
         t.setName(dto.name());
         t.setDescription(dto.description());
         t.setAmount(dto.amount());
-        //t.setCurrency(dto.currency() == null ? TransactionCurrency.getDefault() : dto.currency());
+        t.setType(TransactionType.toEnum(dto.type()));
 
         return t;
     }

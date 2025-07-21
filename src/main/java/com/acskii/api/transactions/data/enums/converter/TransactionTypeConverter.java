@@ -4,8 +4,6 @@ import com.acskii.api.transactions.data.enums.TransactionType;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-import java.util.stream.Stream;
-
 @Converter(autoApply = true)
 public class TransactionTypeConverter implements AttributeConverter<TransactionType, String> {
 
@@ -16,13 +14,7 @@ public class TransactionTypeConverter implements AttributeConverter<TransactionT
 
     @Override
     public TransactionType convertToEntityAttribute(String code) {
-        if (code == null) {
-            return null;
-        }
-
-        return Stream.of(TransactionType.values())
-                .filter(c -> c.getValue().equals(code))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+        if (code == null) return null;
+        return TransactionType.toEnum(code);
     }
 }

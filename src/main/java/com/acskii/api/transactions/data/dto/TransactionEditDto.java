@@ -1,5 +1,6 @@
 package com.acskii.api.transactions.data.dto;
 
+import com.acskii.api.transactions.data.validation.ValidTransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 
@@ -11,6 +12,9 @@ public record TransactionEditDto(
 
         @Digits(integer = 12, fraction = 3, message = "'amount' must be exceed 999999999.999")
         @DecimalMin(value = "0.000", inclusive = false, message = "'amount' must be positive and above 0")
-        BigDecimal amount
+        BigDecimal amount,
+
+        @ValidTransactionType
+        String type
 ) {
 }
