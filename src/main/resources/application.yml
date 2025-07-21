@@ -1,0 +1,45 @@
+spring:
+  datasource:
+    # This must be uncommented
+
+    # url: ***
+    # username: ***
+    # password: ***
+
+    # This should remain if you continue to use PostgreSQL
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      # Should be made to 'create' if you still plan on editing your schema
+      # Change to 'update' if you want to retain data records
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  application:
+    name: Expenses
+
+server:
+  # Change this 'port' to whatever port works for you
+  port: 443
+  # Keep this as is if you want any device to make requests to your API
+  address: 0.0.0.0
+
+# You must have OpenSSL to complete this step:
+# Make sure you are within the same directory of src/main/resources/jwt
+#     Or change the classpath:___ to the new folder you want to place it in
+# To generate the private key, use this command:
+#     $ openssl genpkey -algorithm RSA -out app.key -outform PEM
+# To generate the public key, use this command:
+#     $ openssl rsa -pubout -in app.key -out app.pub
+
+# Change 'ttl' if you want to change the lifetime of a JWT Token, e.g. 15m -> 15 minutes
+jwt:
+  private-key: classpath:jwt/app.key
+  public-key: classpath:jwt/app.pub
+  ttl: 15m
