@@ -10,7 +10,7 @@ public class ValidTransactionTypeValidator implements ConstraintValidator<ValidT
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) return false;
+        if (value == null) return true;
         TransactionType type = TransactionType.toEnum(value);
         return type != null;
     }
