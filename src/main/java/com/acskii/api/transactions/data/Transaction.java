@@ -59,15 +59,18 @@ public class Transaction {
     private User user;
 
 //    @Column(nullable = false)
-//    @Enumerated(EnumType.STRING)
 //    private TransactionCurrency currency;
+
+    // PaymentMethod
+    // Location
 
     /* Handled by @Converter */
     @Column(nullable = false)
     private TransactionType type;
 
-    /* @PrePersist */
+    /* Determined at Runtime */
     @PrePersist
+    @PreUpdate
     protected void determineProfit() {
         this.profit = this.type == null || this.type.isIncome();
     }
