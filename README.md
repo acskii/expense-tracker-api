@@ -367,7 +367,7 @@ server:
 
 1. Clone Repository
     ```bash
-    git clone <ADD-HERE>
+    git clone git@github.com:acskii/expense-tracker-api.git
     cd api
     ```
    
