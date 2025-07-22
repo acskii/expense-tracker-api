@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -39,8 +40,13 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /* Related to User */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
+
+    // Default: 0
+    @Column(nullable = false, precision = 12, scale = 3)
+    private BigDecimal balance = BigDecimal.ZERO;
 
     /* NoArgsConstructor */
     public User() {}
@@ -58,4 +64,6 @@ public class User {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public String getPassword() {return password;}
+    public BigDecimal getBalance() {return balance;}
+    public void setBalance(BigDecimal balance) {this.balance = balance;}
 }

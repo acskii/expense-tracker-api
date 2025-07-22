@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserMapper {
     public UserProfileDto toResponse(User user) {
-        return new UserProfileDto(user.getEmail(), user.getName());
+        return new UserProfileDto(user.getEmail(), user.getName(), user.getBalance());
     }
 }

@@ -20,7 +20,8 @@ public class UserRegistrationMapper {
     public RegistrationResponseDto toResponse(User user) {
         return new RegistrationResponseDto(
                user.getName(),
-               user.getEmail()
+               user.getEmail(),
+               user.getBalance()
         );
     }
 }

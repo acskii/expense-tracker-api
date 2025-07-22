@@ -12,6 +12,7 @@ import com.acskii.api.transactions.repo.TransactionRepository;
 import com.acskii.api.users.data.User;
 import com.acskii.api.users.exception.UserNotAuthorizedException;
 import com.acskii.api.users.service.UserAuthenticationService;
+import com.acskii.api.users.service.UserProfileService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,12 +24,14 @@ public class TransactionService {
     private final TransactionRepository repository;
     private final TransactionMapper mapper;
     private final UserAuthenticationService authService;
+    private final UserProfileService profileService;
 
     public TransactionService(TransactionRepository repository, TransactionMapper mapper,
-                              UserAuthenticationService authService) {
+                              UserAuthenticationService authService, UserProfileService profileService) {
         this.repository = repository;
         this.mapper = mapper;
         this.authService = authService;
+        this.profileService = profileService;
     }
 
     @Deprecated
@@ -47,7 +50,8 @@ public class TransactionService {
         Transaction t = mapper.toNormal(dto);
         t.setUser(user);
 
-        save(t);
+        Transaction saved = save(t);
+        profileService.updateBalance(user, saved);
     }
 
     public TransactionResponseDto getSingleTransaction(UUID id, String email) {
@@ -82,12 +86,13 @@ public class TransactionService {
         if (dto.type() != null) {t.setType(TransactionType.toEnum(dto.type()));}    // Validated from DTO
         if (dto.method() != null) {t.setMethod(PaymentMethod.toEnum(dto.method()));}    // Validated from DTO
 
-        save(t);
+        Transaction saved = save(t);
+        profileService.updateBalance(user, saved);
     }
 
-    private void save(Transaction t) {
+    private Transaction save(Transaction t) {
         /* If any process needed before save is done here */
-        repository.save(t);
+        return repository.save(t);
     }
 
 }

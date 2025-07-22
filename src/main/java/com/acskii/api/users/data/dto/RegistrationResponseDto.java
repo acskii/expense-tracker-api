@@ -1,7 +1,10 @@
 package com.acskii.api.users.data.dto;
 
+import java.math.BigDecimal;
+
 public record RegistrationResponseDto(
         String name,
-        String email
+        String email,
+        BigDecimal balance
 ) {
 }
