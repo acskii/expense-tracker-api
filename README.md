@@ -83,7 +83,8 @@ To get an Authorization token, you must log in to a registered user account.
 ```json
 {
   "name": "USER NAME",
-  "email": "EMAIL ADDRESS"
+  "email": "EMAIL ADDRESS",
+  "balance": 123.45
 }
 ```
 
@@ -97,13 +98,51 @@ To get an Authorization token, you must log in to a registered user account.
 
 ----
 
-### 4] Transactions:
+### 4] Users:
+
+----
+**Endpoint**: `GET` `api/user`
+
+**Headers**:
+```json
+{
+  "Authorization": "Bearer <TOKEN>"
+}
+```
+**NO Request Body**
+
+--
+
+**Response if valid**:
+
+**[STATUS CODE: 200]**
+
+```json
+{
+  "name": "USER NAME",
+  "email": "EMAIL ADDRESS",
+  "balance": 123.45
+}
+```
+
+--
+
+**Response if _not_ valid**:
+
+**[STATUS CODE: 401]**
+
+**NO Response Body**
+
+----
+
+### 5] Transactions:
 
 > [!IMPORTANT] 
 > 
 > For **ALL** requests mentioned below, an Authorization token must be provided for a request to process.
 > 
 > Include this header in any request:
+> 
 > **Headers**:
 > ```json
 > {
@@ -132,7 +171,11 @@ To get an Authorization token, you must log in to a registered user account.
     "id": "UUID",
     "name": "TRANSACTION NAME",
     "description": "DESCRIPTION",
-    "amount": 999.99
+    "amount": 999.99,
+    "type": "INCOME/EXPENSE",
+    "profit": true, 
+    "location": "LOCATION", 
+    "method": "CARD/CASH"
   }
 ]
 ```
@@ -145,9 +188,13 @@ To get an Authorization token, you must log in to a registered user account.
 **Request Body**:
 ```json
 {
-  "name": "TRANSACTION NAME",
-  "description": "DESCRIPTION",
-  "amount": 999.99
+   "id": "UUID",
+   "name": "TRANSACTION NAME",
+   "description": "DESCRIPTION",
+   "amount": 999.99,
+   "type": "INCOME/EXPENSE",
+   "location": "LOCATION",
+   "method": "CARD/CASH"
 }
 ```
 
@@ -173,14 +220,16 @@ To get an Authorization token, you must log in to a registered user account.
 
 **Response Body**:
 ```json
-[
-  {
-    "id": "UUID",
-    "name": "TRANSACTION NAME",
-    "description": "DESCRIPTION",
-    "amount": 999.99
-  }
-]
+{
+   "id": "UUID",
+   "name": "TRANSACTION NAME",
+   "description": "DESCRIPTION",
+   "amount": 999.99,
+   "type": "INCOME/EXPENSE",
+   "profit": true,
+   "location": "LOCATION",
+   "method": "CARD/CASH"
+}
 ```
 
 ----
@@ -192,13 +241,14 @@ To get an Authorization token, you must log in to a registered user account.
 > `name?` means that you may or may not include it
 
 ```json
-[
-  {
-    "name?": "TRANSACTION NAME",
-    "description?": "DESCRIPTION",
-    "amount?": 999.99
-  }
-]
+{
+   "name?": "TRANSACTION NAME",
+   "description?": "DESCRIPTION",
+   "amount?": 999.99,
+   "type?": "INCOME/EXPENSE",
+   "location?": "LOCATION",
+   "method?": "CARD/CASH"
+}
 ```
 
 --
