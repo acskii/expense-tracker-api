@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin("*")
 public class AuthController {
     private final UserRegistrationService registerService;
     private final UserAuthenticationService authService;
