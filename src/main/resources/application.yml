@@ -11,15 +11,22 @@ spring:
 
   jpa:
     hibernate:
-      # Should be made to 'create' if you still plan on editing your schema
-      # Change to 'update' if you want to retain data records
-      ddl-auto: create
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    # url: ***
+    # user: ***
+    # password: ***
+    validate-on-migrate: true
+    baseline-on-migrate: true
+    baseline-version: 1
 
   application:
     name: Expenses
