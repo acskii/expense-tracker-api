@@ -1,5 +1,7 @@
 package com.acskii.api.transactions.controller;
 
+import com.acskii.api.enums.transactions.method.exception.PaymentMethodNotFoundException;
+import com.acskii.api.enums.transactions.type.exception.TransactionTypeNotFoundException;
 import com.acskii.api.transactions.data.Transaction;
 import com.acskii.api.transactions.data.dto.TransactionDto;
 import com.acskii.api.transactions.data.dto.TransactionEditDto;
@@ -79,6 +81,20 @@ public class TransactionController {
     @ExceptionHandler(TransactionNotFoundException.class)
     public ResponseEntity<?> handleTransactionNotFoundException(
             TransactionNotFoundException ex
+    ) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TransactionTypeNotFoundException.class)
+    public ResponseEntity<?> handleTransactionTypeNotFoundException(
+            TransactionTypeNotFoundException ex
+    ) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(PaymentMethodNotFoundException.class)
+    public ResponseEntity<?> handlePaymentMethodNotFoundException(
+            PaymentMethodNotFoundException ex
     ) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }

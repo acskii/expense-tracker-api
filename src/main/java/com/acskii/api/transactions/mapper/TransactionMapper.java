@@ -1,24 +1,32 @@
 package com.acskii.api.transactions.mapper;
 
+import com.acskii.api.enums.transactions.method.service.PaymentMethodService;
+import com.acskii.api.enums.transactions.type.service.TransactionTypeService;
 import com.acskii.api.transactions.data.Transaction;
 import com.acskii.api.transactions.data.dto.TransactionDto;
 import com.acskii.api.transactions.data.dto.TransactionResponseDto;
-import com.acskii.api.transactions.data.enums.PaymentMethod;
-import com.acskii.api.transactions.data.enums.TransactionType;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionMapper {
+    private final TransactionTypeService typeService;
+    private final PaymentMethodService methodService;
+
+    public TransactionMapper(TransactionTypeService typeService, PaymentMethodService methodService) {
+        this.typeService = typeService;
+        this.methodService = methodService;
+    }
+
     public TransactionResponseDto toResponseDto(Transaction t) {
         return new TransactionResponseDto(
                 t.getId(),
                 t.getName(),
                 t.getDescription(),
                 t.getAmount(),
-                t.getType().getValue(),
+                t.getType().getType(),
                 t.isProfit(),
                 t.getLocation(),
-                t.getMethod().getValue()
+                t.getMethod().getMethod()
         );
     }
 
@@ -26,11 +34,11 @@ public class TransactionMapper {
         Transaction t = new Transaction();
 
         t.setName(dto.name());
-        t.setDescription(dto.description());
-        t.setLocation(dto.location());
+        if (dto.description() != null) t.setDescription(dto.description());
+        if (dto.location() != null) t.setLocation(dto.location());
         t.setAmount(dto.amount());
-        t.setType(TransactionType.toEnum(dto.type()));
-        t.setMethod(PaymentMethod.toEnum(dto.method()));
+        t.setType(typeService.getByType(dto.type()));
+        t.setMethod(methodService.getByMethod(dto.method()));
 
         return t;
     }

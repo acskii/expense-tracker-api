@@ -1,11 +1,11 @@
 package com.acskii.api.transactions.service;
 
+import com.acskii.api.enums.transactions.method.service.PaymentMethodService;
+import com.acskii.api.enums.transactions.type.service.TransactionTypeService;
 import com.acskii.api.transactions.data.Transaction;
 import com.acskii.api.transactions.data.dto.TransactionEditDto;
 import com.acskii.api.transactions.data.dto.TransactionResponseDto;
 import com.acskii.api.transactions.data.dto.TransactionDto;
-import com.acskii.api.transactions.data.enums.PaymentMethod;
-import com.acskii.api.transactions.data.enums.TransactionType;
 import com.acskii.api.transactions.exception.TransactionNotFoundException;
 import com.acskii.api.transactions.mapper.TransactionMapper;
 import com.acskii.api.transactions.repo.TransactionRepository;
@@ -25,13 +25,17 @@ public class TransactionService {
     private final TransactionMapper mapper;
     private final UserAuthenticationService authService;
     private final UserProfileService profileService;
+    private final TransactionTypeService typeService;
+    private final PaymentMethodService methodService;
 
     public TransactionService(TransactionRepository repository, TransactionMapper mapper,
-                              UserAuthenticationService authService, UserProfileService profileService) {
+                              UserAuthenticationService authService, UserProfileService profileService, TransactionTypeService typeService, PaymentMethodService methodService) {
         this.repository = repository;
         this.mapper = mapper;
         this.authService = authService;
         this.profileService = profileService;
+        this.typeService = typeService;
+        this.methodService = methodService;
     }
 
     @Deprecated
@@ -83,11 +87,11 @@ public class TransactionService {
         if (dto.description() != null) {t.setDescription(dto.description());}
         if (dto.location() != null) {t.setLocation(dto.location());}
         if (dto.amount() != null) {t.setAmount(dto.amount());}
-        if (dto.type() != null) {t.setType(TransactionType.toEnum(dto.type()));}    // Validated from DTO
-        if (dto.method() != null) {t.setMethod(PaymentMethod.toEnum(dto.method()));}    // Validated from DTO
+        if (dto.type() != null) {t.setType(typeService.getByType(dto.type()));}
+        if (dto.method() != null) {t.setMethod(methodService.getByMethod(dto.method()));}
 
         Transaction saved = save(t);
-        profileService.updateBalance(user, saved);
+        if (dto.amount() != null) profileService.updateBalance(user, saved);
     }
 
     private Transaction save(Transaction t) {

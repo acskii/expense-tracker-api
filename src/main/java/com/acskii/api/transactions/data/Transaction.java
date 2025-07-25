@@ -1,7 +1,7 @@
 package com.acskii.api.transactions.data;
 
-import com.acskii.api.transactions.data.enums.PaymentMethod;
-import com.acskii.api.transactions.data.enums.TransactionType;
+import com.acskii.api.enums.transactions.method.data.PaymentMethod;
+import com.acskii.api.enums.transactions.type.data.TransactionType;
 import com.acskii.api.users.data.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
@@ -30,12 +30,12 @@ public class Transaction {
     @Column(
             nullable = false
     )
-    private String description;
+    private String description = "";
 
     @Column(
             nullable = false
     )
-    private String location;
+    private String location = "";
 
     @Column(
             name = "created_on",
@@ -60,18 +60,17 @@ public class Transaction {
     @Column(name = "profit", nullable = false)
     private boolean profit;
 
+    /* Relationships */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-//    @Column(nullable = false)
-//    private TransactionCurrency currency;
-
-    /* Handled by @Converter */
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id", nullable = false)
     private TransactionType type;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "method_id", nullable = false)
     private PaymentMethod method;
 
     /* Determined at Runtime */

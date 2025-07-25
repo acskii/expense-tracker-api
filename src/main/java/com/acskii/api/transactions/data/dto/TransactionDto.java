@@ -1,7 +1,5 @@
 package com.acskii.api.transactions.data.dto;
 
-import com.acskii.api.transactions.data.validation.ValidPaymentMethod;
-import com.acskii.api.transactions.data.validation.ValidTransactionType;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -11,7 +9,6 @@ public record TransactionDto(
         @NotNull(message = "'name' parameter must not be NULL")
         String name,
 
-        @NotNull(message = "'description' parameter must not be NULL")
         String description,
 
         @NotNull(message = "'amount' parameter must not be NULL")
@@ -20,14 +17,11 @@ public record TransactionDto(
         BigDecimal amount,
 
         @NotNull(message = "'type' parameter must not be NULL")
-        @ValidTransactionType
         String type,
 
-        @NotNull(message = "'location' parameter must not be NULL")
         String location,
 
         @NotNull(message = "'method' parameter must not be NULL")
-        @ValidPaymentMethod
         String method
 ) {
 }
