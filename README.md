@@ -341,6 +341,19 @@ Here are a few settings you must make sure are configured correctly:
     driver-class-name: org.postgresql.Driver
 ```
 
+The same should be done here as well:
+
+```yml
+flyway:
+   enabled: true
+   # url: jdbc:postgresql://<HOST>:<PORT>/<DATABASE>          < Here add the URL to access the database (Self-hosted / Docker Compose)             
+   # user: ***                                                < Here add your database username 
+   # password: ***                                            < Here add your database password 
+   validate-on-migrate: true
+   baseline-on-migrate: true
+   baseline-version: 1
+```
+
 After following the [Encryption Keys](#encryption-keys) section, 
 you should have **2** files: `app.key` and `app.pub`.
 
@@ -380,12 +393,24 @@ server:
    │   ├───java/
    │   │   └───com/acskii/api
    │   │            ├───config/           # Main configuration beans
+   │   │            ├───enums/            # API Enum Entities
+   │   │            │   └───transactions/       # All entities for Transaction Model
+   │   │            │       ├───method/         # PaymentMethod enum entity
+   │   │            │       │   ├───data        # PaymentMethod Model
+   │   │            │       │   ├───exception   # PaymentMethod Exceptions
+   │   │            │       │   ├───repo        # PaymentMethod Repository
+   │   │            │       │   └───service     # Service layer
+   │   │            │       └───type/           # TransactionType enum entity
+   │   │            │           ├───data        # TransactionType Model
+   │   │            │           ├───exception   # TransactionType Exceptions
+   │   │            │           ├───repo        # TransactionType Repository
+   │   │            │           └───service     # Service layer
+   │   │            │
    │   │            ├───jwt/              # JWT service beans  
    │   │            ├───transactions/       
    │   │            │   ├───controller/   # Transaction API endpoints  
    │   │            │   ├───data/         # Transaction Models  
-   │   │            │   │   ├───dto/      # Transaction Response DTOs  
-   │   │            │   │   └───enums/    # Enums for Transaction Model
+   │   │            │   │   └───dto/      # Transaction Response DTOs  
    │   │            │   ├───exception/    # Custom exceptions
    │   │            │   ├───mapper/       # Mappers to DTOs
    │   │            │   ├───repo/         # Transaction JPA repository
@@ -393,14 +418,15 @@ server:
    │   │            └───users/
    │   │                ├───controller/   # User API endpoints  
    │   │                ├───data/         # User Models 
-   │   │                │   ├───dto/      # User Response DTOs
-   │   │                │   └───enums/    # Enums for User Model
+   │   │                │   └───dto/      # User Response DTOs
    │   │                ├───exception/    # Custom exceptions
    │   │                ├───mapper/       # Mappers to DTOs
    │   │                ├───repo/         # User JPA repository
    │   │                └───service/      # Service layer
    │   └───resources/       
    │        ├── application.yaml          # Main application configuration
+   │        ├───db
+   │        │   └───migration             # Contain database migrations
    │        └───jwt/                      # Contains OpenSSL keys
    └───test/                              # Will contain test units (TBD)
 ```
